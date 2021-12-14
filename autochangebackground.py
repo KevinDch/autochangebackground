@@ -48,19 +48,25 @@ def change_background(PATH_TO_PICTURE):
 
 
 paused = False
+output = False
 
 
 def thread_change_background():
     file_list = []
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(script_dir)
 
-    for file in glob.glob("*.jpg"):
-        file_list.append(os.environ['PWD'] + '/' + file)
+    for file in glob.glob('*.jpg'):
+        file_list.append(script_dir + '/' + file)
 
     access_list = gen_random_list(len(file_list))
 
     while True:
         for i in access_list:
-            print('\nchange background to file://' + file_list[i])
+
+            if output:
+                print('\nchange background to file://' + file_list[i])
+
             change_background(file_list[i])
             os.system('sleep 10')
 
@@ -71,7 +77,7 @@ def thread_change_background():
 _thread.start_new_thread(thread_change_background, ())
 
 while True:
-    cmd = input("Pybkg> ")
+    cmd = input('Pybkg> ')
 
     if cmd == 'exit':
         print('Exiting...')
@@ -81,10 +87,19 @@ while True:
         paused = True
         print('Thread paused')
 
-    elif cmd == 'unpause':
+    elif cmd == 'resume':
         paused = False
-        print('Thread un-paused')
+        print('Thread resumed')
+
+    elif cmd == 'nooutput':
+        output = False
+        print('Disable output')
+
+    elif cmd == 'yesoutput':
+        output = True
+        print('Enable output')
 
     else:
         print('Unknown command!')
+
 
