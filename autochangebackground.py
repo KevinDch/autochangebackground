@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-import os, glob, random
 import _thread
+import glob
+import os
+import random
 
 
 def gen_random_num(start, end):
